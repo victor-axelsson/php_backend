@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="google-appengine-php" name="Google App Engine (Python)">
+      <configuration>
+        <option name="rootFolder" value="" />
+        <option name="sdkFolder" value="/usr/local/php5-5.6.19-20160310-141555/bin" />
+        <option name="pythonPath" value="" />
+        <option name="oauth2" value="true" />
+        <option name="nocache" value="false" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
