@@ -4,26 +4,20 @@
     ini_set('display_startup_errors', 1);
     error_reporting(-1);
 
-    include_once 'connector.php';
+    include_once 'DatabaseInterface.php';
 
-    if(isset($_GET['action'])){
-        if(function_exists($_GET['action'])){
-            call_user_func($_GET['action']);
+    if(isset($_GET['action']) && isset($_GET['controller'])){
+        if(class_exists($_GET['controller'])){
+
+            $ds = new $_GET['controller'];
+            $params = $_GET;
+            unset($params['controller']);
+            unset($params['action']);
+
+            call_user_func_array(array($ds, $_GET['action']), $params);
+
+            //$ds = new $_GET['controller'];
+            //$ds->$_GET['action']();
         }
     }
 
-    function getAllColors(){
-        $con = getConnector();
-
-        $stmt = $con->prepare("Select * from color");
-        $stmt->execute();
-        $stmt->bind_result($id, $colorName);
-
-        while ($stmt->fetch()){
-            echo $id ."<br>";
-            echo $colorName ."<br><br>";
-        }
-
-        $stmt->close();
-        $con->close();
-    }
