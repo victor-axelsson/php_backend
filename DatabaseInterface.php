@@ -6,7 +6,7 @@ class DatabaseInterface
     private $con;
 
     public function __construct(){
-        $this->con =  mysqli_connect('127.0.0.1', 'root', 'root', 'color_db', 8889);
+        $this->con =  mysqli_connect(getenv('DB_IP'), getenv('DB_USER'), getenv('DB_PASSWORD'), getenv('DB_NAME'), getenv('DB_PORT'));
     }
 
     public function getAllColors(){

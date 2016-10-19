@@ -5,6 +5,8 @@
     error_reporting(-1);
 
     include_once 'DatabaseInterface.php';
+    setupEnv();
+
 
     if(isset($_GET['action']) && isset($_GET['controller'])){
         if(class_exists($_GET['controller'])){
@@ -18,6 +20,17 @@
 
             //$ds = new $_GET['controller'];
             //$ds->$_GET['action']();
+        }
+    }
+
+    function setupEnv(){
+        $handle = fopen(".env", "r");
+        if ($handle) {
+            while (($line = fgets($handle)) !== false) {
+                putenv(trim($line));
+            }
+
+            fclose($handle);
         }
     }
 
