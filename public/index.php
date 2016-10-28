@@ -4,7 +4,9 @@
     ini_set('display_startup_errors', 1);
     error_reporting(-1);
 
-    include_once 'vendor/autoload.php';
+    include_once '../vendor/autoload.php';
+
+    var_dump($_GET);
 
     setupEnv();
 
@@ -26,7 +28,7 @@
     }
 
     function setupEnv(){
-        $handle = fopen(".env", "r");
+        $handle = fopen("../.env", "r");
         if ($handle) {
             while (($line = fgets($handle)) !== false) {
 
