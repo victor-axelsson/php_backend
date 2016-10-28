@@ -2,14 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Data\DatabaseInterface;
-
-class ColorController extends DatabaseInterface
+class ColorController extends Controller
 {
 
     public function getAllColors(){
         $colors = $this->repo->getAlColors();
-        var_dump($colors);
+
+        $this->response(200, $colors);
     }
 
     public function getColorById($id){
