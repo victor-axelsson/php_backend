@@ -6,26 +6,24 @@
 
     include_once '../vendor/autoload.php';
 
-    var_dump($_GET);
-
     setupEnv();
 
+    if(isset($_GET['url'])){
+        $route = explode('/', $_GET['url']);
 
-    if(isset($_GET['action']) && isset($_GET['controller'])){
-
-        $contoller = "App\\Controllers\\" .$_GET['controller'];
+        $contoller = "App\\Controllers\\" .$route[0];
 
         if(class_exists($contoller)){
             $ds = new $contoller;
-            $params = $_GET;
-            unset($params['controller']);
-            unset($params['action']);
 
-            call_user_func_array(array($ds, $_GET['action']), $params);
+            $params = array_slice($route, 2);
+
+            call_user_func_array(array($ds, $route[1]), $params);
         }else{
             echo "\n \n Not found";
         }
     }
+
 
     function setupEnv(){
         $handle = fopen("../.env", "r");
