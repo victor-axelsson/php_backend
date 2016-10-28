@@ -10,13 +10,18 @@
 
 
     if(isset($_GET['action']) && isset($_GET['controller'])){
-        if(class_exists($_GET['controller'])){
-            $ds = new $_GET['controller'];
+
+        $contoller = "App\\Controllers\\" .$_GET['controller'];
+
+        if(class_exists($contoller)){
+            $ds = new $contoller;
             $params = $_GET;
             unset($params['controller']);
             unset($params['action']);
 
             call_user_func_array(array($ds, $_GET['action']), $params);
+        }else{
+            echo "\n \n Not found";
         }
     }
 

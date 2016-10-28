@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Data;
 
 abstract class DatabaseInterface
 {

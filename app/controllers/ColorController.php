@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Data\DatabaseInterface;
 
 class ColorController extends DatabaseInterface
 {

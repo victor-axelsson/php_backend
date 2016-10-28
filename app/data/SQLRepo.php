@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Data;
+
 class SQLRepo implements IRepository
 {
     private $con;
