@@ -1,7 +1,6 @@
 <?php
 
-
-class DatabaseInterface
+class SQLRepo implements IRepository
 {
     private $con;
 
@@ -9,34 +8,39 @@ class DatabaseInterface
         $this->con =  mysqli_connect(getenv('DB_IP'), getenv('DB_USER'), getenv('DB_PASSWORD'), getenv('DB_NAME'), getenv('DB_PORT'));
     }
 
-    public function getAllColors(){
+    public function getAlColors()
+    {
         $stmt = $this->con->prepare("Select * from color");
         $stmt->execute();
         $stmt->bind_result($id, $colorName);
 
+        $content = [];
         while ($stmt->fetch()){
-            echo $id ."<br>";
-            echo $colorName ."<br><br>";
+           array_push($content, $colorName);
         }
 
         $stmt->close();
         $this->con->close();
+
+        return $content;
     }
 
-    public function getColorById($id, $name){
-        var_dump($name);
+    public function getColorById($id)
+    {
         $stmt = $this->con->prepare("Select * from color where id = ?");
         $stmt->bind_param("i", $id);
 
         $stmt->execute();
         $stmt->bind_result($id, $colorName);
 
+        $color = null;
         while ($stmt->fetch()){
-            echo $id ."<br>";
-            echo $colorName ."<br><br>";
+            $color = $colorName;
         }
 
         $stmt->close();
         $this->con->close();
+
+        return $color;
     }
 }
