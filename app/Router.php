@@ -9,16 +9,18 @@
 
 namespace App;
 
+use Psr\Http\Message\RequestInterface;
+
 class Router
 {
     private static $getRoutes = [
-        'color/{id}/by/{name}' =>[
+        'color' =>[
             'middleware' => [],
             'callable' => 'ColorController@getAllColors'
         ],
-        'color/{id}/by/gravy' => [
+        'color/{id}' => [
             'middleware' => [],
-            'callable' => 'ColorController@getAllColors'
+            'callable' => 'ColorController@getColorById'
         ]
     ];
 
@@ -106,14 +108,14 @@ class Router
      * @param $url array The route
      * This will route from url to an endpoint
      */
-    public static function route($url, $method){
+    public static function route(RequestInterface $request){
 
-        $url = explode('/', $url);
+        $url = explode('/', $request->getUri());
 
         $routes = [];
-        if($method === "GET"){
+        if($request->getMethod() === "GET"){
             $routes = self::$getRoutes;
-        }else if($method === "POST"){
+        }else if($request->getMethod() === "POST"){
             $routes = self::$postRoutes;
         }
 
@@ -132,7 +134,7 @@ class Router
             if(class_exists($contoller)){
                 $ds = new $contoller;
 
-                call_user_func_array(array($ds, $parts[1]), $variables);
+                call_user_func_array(array($ds, $parts[1]), [$request, $variables]);
             }else{
                 echo "\n \n Not found";
             }

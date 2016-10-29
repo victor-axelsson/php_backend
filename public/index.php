@@ -10,7 +10,11 @@
 
 
     if(isset($_GET['url'])){
-        App\Router::route($_GET['url'], $_SERVER['REQUEST_METHOD']);
+
+        $body = file_get_contents('php://input');
+        $request = new \App\Message\HttpMessage($_SERVER['REQUEST_METHOD'], $_GET['url'], $body, null);
+
+        App\Router::route($request);
     }
 
 
