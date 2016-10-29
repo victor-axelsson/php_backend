@@ -12,9 +12,10 @@
     if(isset($_GET['url'])){
 
         $body = file_get_contents('php://input');
-        $request = new \App\Message\HttpMessage($_SERVER['REQUEST_METHOD'], $_GET['url'], $body, null);
+        $request = new \App\Message\HttpRequest($_SERVER['REQUEST_METHOD'], $_GET['url'], $body, null);
+        $response = new \App\Message\HttpResponse($_SERVER['REQUEST_METHOD'], $_GET['url'], $body, null);
 
-        App\Router::route($request);
+        App\Router::route($request, $response);
     }
 
 

@@ -10,6 +10,7 @@
 namespace App;
 
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class Router
 {
@@ -108,7 +109,7 @@ class Router
      * @param $url array The route
      * This will route from url to an endpoint
      */
-    public static function route(RequestInterface $request){
+    public static function route(RequestInterface $request, ResponseInterface $response){
 
         $url = explode('/', $request->getUri());
 
@@ -134,7 +135,7 @@ class Router
             if(class_exists($contoller)){
                 $ds = new $contoller;
 
-                call_user_func_array(array($ds, $parts[1]), [$request, $variables]);
+                call_user_func_array(array($ds, $parts[1]), [$request, $response, $variables]);
             }else{
                 echo "\n \n Not found";
             }

@@ -3,20 +3,19 @@
 namespace App\Controllers;
 
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class ColorController extends Controller
 {
 
-    public function getAllColors(RequestInterface $request){
-
+    public function getAllColors(RequestInterface $request, ResponseInterface $response){
 
         $colors = $this->repo->getAlColors();
         $this->response(200, $colors);
     }
 
-    public function getColorById(RequestInterface $request, $id){
+    public function getColorById(RequestInterface $request, ResponseInterface $response, $id){
 
-        var_dump($id);
 
         $color = $this->repo->getColorById($id);
 
