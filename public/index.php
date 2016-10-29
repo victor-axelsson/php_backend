@@ -8,8 +8,11 @@
 
     setupEnv();
 
+
     if(isset($_GET['url'])){
         $route = explode('/', $_GET['url']);
+
+        App\Router::route($route);
 
         $contoller = "App\\Controllers\\" .$route[0];
 
