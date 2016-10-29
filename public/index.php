@@ -10,21 +10,7 @@
 
 
     if(isset($_GET['url'])){
-        $route = explode('/', $_GET['url']);
-
-        App\Router::route($route, $_SERVER['REQUEST_METHOD']);
-
-        $contoller = "App\\Controllers\\" .$route[0];
-
-        if(class_exists($contoller)){
-            $ds = new $contoller;
-
-            $params = array_slice($route, 2);
-
-            call_user_func_array(array($ds, $route[1]), $params);
-        }else{
-            echo "\n \n Not found";
-        }
+        App\Router::route($_GET['url'], $_SERVER['REQUEST_METHOD']);
     }
 
 

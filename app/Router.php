@@ -108,8 +108,9 @@ class Router
      */
     public static function route($url, $method){
 
-        $routes = [];
+        $url = explode('/', $url);
 
+        $routes = [];
         if($method === "GET"){
             $routes = self::$getRoutes;
         }else if($method === "POST"){
@@ -124,10 +125,21 @@ class Router
 
         if(array_key_exists($routeKey, $routes)){
             $route = $routes[$routeKey];
+            $parts = explode('@', $route['callable']);
+
+            $contoller = "App\\Controllers\\" .$parts[0];
+
+            if(class_exists($contoller)){
+                $ds = new $contoller;
+
+                call_user_func_array(array($ds, $parts[1]), $variables);
+            }else{
+                echo "\n \n Not found";
+            }
+
         }else{
             var_dump("No such route");
         }
 
-        var_dump($variables);
     }
 }
