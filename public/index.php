@@ -12,7 +12,7 @@
     if(isset($_GET['url'])){
         $route = explode('/', $_GET['url']);
 
-        App\Router::route($route);
+        App\Router::route($route, $_SERVER['REQUEST_METHOD']);
 
         $contoller = "App\\Controllers\\" .$route[0];
 

@@ -11,23 +11,28 @@ namespace App;
 
 class Router
 {
-
-    private static $routes = [
+    private static $getRoutes = [
         'color/{id}/by/{name}' =>[
             'middleware' => [],
-            'method' => 'get',
             'callable' => 'ColorController@getAllColors'
         ],
         'color/{id}/by/gravy' => [
             'middleware' => [],
-            'method' => 'get',
             'callable' => 'ColorController@getAllColors'
+        ]
+    ];
+
+    private static $postRoutes = [
+        'color' =>[
+            'middleware' => [],
+            'callable' => 'ColorController@createColor'
         ]
     ];
 
     /**
      * @author Victor Axelsson
      * @param $route array The flat array to be mapped
+     * @param $tree array The subtree that will get recursively built
      * This will recursively create a nested array from a flat array
      * @return array The flat array as a tree
      */
@@ -43,12 +48,13 @@ class Router
 
     /**
      * @author Victor Axelsson
-     * This will get all the definied routes and build a tree from it
+     * @param $routes array Array of all the reoutes we are going to build from
+     * This will get all the defined routes and build a tree from it
      * @return array All the specified routes a tree
      */
-    private static function getRouteTree(){
+    private static function getRouteTree($routes){
         $tree = [];
-        foreach (self::$routes as $url => $route){
+        foreach ($routes as $url => $route){
 
             $subtree = self::asTree(explode('/', $url));
             $tree = array_merge_recursive($tree, $subtree);
@@ -100,15 +106,24 @@ class Router
      * @param $url array The route
      * This will route from url to an endpoint
      */
-    public static function route($url){
+    public static function route($url, $method){
+
+        $routes = [];
+
+        if($method === "GET"){
+            $routes = self::$getRoutes;
+        }else if($method === "POST"){
+            $routes = self::$postRoutes;
+        }
+
 
         $variables = [];
-        $tree = self::getRouteTree();
+        $tree = self::getRouteTree($routes);
 
         $routeKey = self::getRoute($tree, $url, $variables);
 
-        if(array_key_exists($routeKey, self::$routes)){
-            $route = self::$routes[$routeKey];
+        if(array_key_exists($routeKey, $routes)){
+            $route = $routes[$routeKey];
         }else{
             var_dump("No such route");
         }
