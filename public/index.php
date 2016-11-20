@@ -12,8 +12,9 @@
     if(isset($_GET['url'])){
 
         $body = file_get_contents('php://input');
-        $request = new \App\Message\HttpRequest($_SERVER['REQUEST_METHOD'], $_GET['url'], $body, null);
-        $response = new \App\Message\HttpResponse($_SERVER['REQUEST_METHOD'], $_GET['url'], $body, null);
+
+        $request = new \GuzzleHttp\Psr7\ServerRequest($_SERVER['REQUEST_METHOD'], $_GET['url'], getallheaders(), $body);
+        $response = new \GuzzleHttp\Psr7\Response();
 
         App\Router::route($request, $response);
     }
