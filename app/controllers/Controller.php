@@ -9,6 +9,8 @@
 namespace App\Controllers;
 
 use App\Data\SQLRepo;
+use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Psr7;
 
 abstract class Controller
 {
@@ -21,5 +23,14 @@ abstract class Controller
     protected function response($code, $msg){
         http_response_code($code);
         echo json_encode($msg);
+    }
+
+    protected function getAsStream($body){
+        return Psr7\stream_for(json_encode($body));
+    }
+
+    protected function respond(ResponseInterface $response){
+        http_response_code($response->getStatusCode());
+        echo $response->getBody();
     }
 }

@@ -11,16 +11,20 @@ class ColorController extends Controller
     public function getAllColors(RequestInterface $request, ResponseInterface $response){
 
         $colors = $this->repo->getAlColors();
-        $this->response(200, $colors);
+
+
+        $this->respond(
+            $response->withStatus(200)->withBody($this->getAsStream($colors))
+        );
     }
 
     public function getColorById(RequestInterface $request, ResponseInterface $response, $id){
 
-
         $color = $this->repo->getColorById($id);
 
-        $this->response(200, [
-            'color' => $color
-        ]);
+
+        $this->respond(
+            $response->withStatus(200)->withBody($this->getAsStream($color))
+        );
     }
 }
