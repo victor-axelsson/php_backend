@@ -27,4 +27,14 @@ class ColorController extends Controller
             $response->withStatus(200)->withBody($this->getAsStream($color))
         );
     }
+
+    public function createColor(RequestInterface $request, ResponseInterface $response){
+
+        $body = json_decode($request->getBody(), true);
+
+
+        $this->respond(
+            $response->withStatus(200)->withBody($this->getAsStream($body))
+        );
+    }
 }

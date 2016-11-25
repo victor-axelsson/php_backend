@@ -27,7 +27,9 @@ class Router
 
     private static $postRoutes = [
         'color' =>[
-            'middleware' => [],
+            'middleware' => [
+                'App\\Middleware\\NameValidation'
+            ],
             'callable' => 'ColorController@createColor'
         ]
     ];
@@ -133,9 +135,12 @@ class Router
             $contoller = "App\\Controllers\\" .$parts[0];
 
             if(class_exists($contoller)){
-                $ds = new $contoller;
 
-                call_user_func_array(array($ds, $parts[1]), [$request, $response, $variables]);
+                self::runMiddleware($route['middleware'], 0, $request, $response, function() use($contoller, $parts, $request, $response, $variables){
+                    $ds = new $contoller;
+                    call_user_func_array(array($ds, $parts[1]), [$request, $response, $variables]);
+                });
+
             }else{
                 echo "\n \n Not found";
             }
@@ -144,5 +149,16 @@ class Router
             var_dump("No such route");
         }
 
+    }
+
+    private static function runMiddleware($callables, $counter, $request, $response, $callback){
+        if($counter < count($callables)){
+            $middleware = new $callables[$counter];
+            $middleware($request, $response, function() use($callables, $counter, $request, $response, $callback){
+                self::runMiddleware($callables, $counter + 1, $request, $response, $callback);
+            });
+        }else{
+            $callback();
+        }
     }
 }
