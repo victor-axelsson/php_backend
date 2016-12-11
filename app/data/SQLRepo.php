@@ -45,4 +45,12 @@ class SQLRepo implements IRepository
 
         return $color;
     }
+
+    public function createColor($color){
+        $stmt = $this->con->prepare("INSERT INTO color (color_name) VALUES(?)");
+        $stmt->bind_param("s", $color['color_name']);
+        $stmt->execute();
+
+        return $color;
+    }
 }

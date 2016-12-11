@@ -27,9 +27,7 @@ class Router
 
     private static $postRoutes = [
         'color' =>[
-            'middleware' => [
-                'App\\Middleware\\NameValidation'
-            ],
+            'middleware' => [],
             'callable' => 'ColorController@createColor'
         ]
     ];

@@ -32,9 +32,10 @@ class ColorController extends Controller
 
         $body = json_decode($request->getBody(), true);
 
+        $databseRes = $this->repo->createColor($body);
 
         $this->respond(
-            $response->withStatus(200)->withBody($this->getAsStream($body))
+            $response->withStatus(200)->withBody($this->getAsStream($databseRes))
         );
     }
 }
